@@ -19,15 +19,14 @@ const corsOptions = {
 };
 
 async function startApolloServer(typeDefs, resolvers) {
- //Define the PORT , use .env or default to 3001 
- const PORT = process.env.PORT || 3001;
- const app = express();
-
- app.use(cors());
- // Use Morgan for detailed request logging during dev phase 
-app.use(logger('dev'));
+//Define the PORT , use .env or default to 3001 
+const PORT = process.env.PORT || 3001;
+const app = express();
+    
+app.use(cors(corsOptions));
+// Use Morgan for detailed request logging during dev phase 
+app.use(morgan('dev'));
 app.use(express.json());
-
 app.use(express.static('public'));
 
 
