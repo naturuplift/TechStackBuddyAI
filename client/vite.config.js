@@ -11,7 +11,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 export default defineConfig({
   plugins: [
     react(),
-    visualizer({ open: true, gzipSize: true, brotliSize: true }) // Optional: Visualizes bundle size
+    visualizer({ open: true, gzipSize: true, brotliSize: true })
   ],
   build: {
     rollupOptions: {
