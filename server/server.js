@@ -2,7 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const { InMemoryLRUCache } = require('apollo-server-caching');
+// const { InMemoryLRUCache } = require('apollo-server-caching');
 const cors = require('cors');
 // Axios is used for OpenAPI testing 
 const axios = require('axios');
@@ -11,6 +11,15 @@ const db = require('./config/connection');
 const { typeDefs, resolvers } = require('./schemas/index');
 const { authMiddleware } = require('./utils/auth');
 const {formatError, errorLoggingPlugin } = require('./utils/apolloBugHutner');
+
+let InMemoryLRUCache;
+try {
+  const caching = require('apollo-server-caching');
+  InMemoryLRUCache = caching.InMemoryLRUCache;
+} catch (err) {
+  console.error('Failed to load apollo-server-caching:', err);
+  process.exit(1);
+}
 
 // CORS for production 
 const corsOptions = {
