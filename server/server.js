@@ -2,28 +2,21 @@
 require('dotenv').config();
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const { typeDefs, resolvers } = require('./schemas/index');
-const { authMiddleware } = require('./utils/auth');
-const db = require('./config/connection');
-
+const { InMemoryLRUCache } = require('apollo-server-caching');
 const cors = require('cors');
-
-
-
 // Axios is used for OpenAPI testing 
 const axios = require('axios');
-
-const {formatError, errorLoggingPlugin } = require('./utils/apolloBugHutner');
 const logger = require ('morgan') // Import morgan for HTTP request logging
-
+const db = require('./config/connection');
+const { typeDefs, resolvers } = require('./schemas/index');
+const { authMiddleware } = require('./utils/auth');
+const {formatError, errorLoggingPlugin } = require('./utils/apolloBugHutner');
 
 // CORS for production 
 const corsOptions = {
-    origin: '',
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3001',
     optionsSuccessStatus: 200
-  };
-  
-
+};
 
 async function startApolloServer(typeDefs, resolvers) {
  //Define the PORT , use .env or default to 3001 
