@@ -4,6 +4,7 @@ const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
 const axios = require('axios');
 const logger = require('morgan');
+const db = require('./config/connection');
 
 let InMemoryLRUCache;
 try {
@@ -14,7 +15,6 @@ try {
     process.exit(1);
 }
 
-const db = require('./config/connection');
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
 // const { formatError, errorLoggingPlugin } = require('./utils/apolloBugHunter');
