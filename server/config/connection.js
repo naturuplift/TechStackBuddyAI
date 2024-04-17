@@ -1,23 +1,27 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URI, {
+const MONGODB_URI = process.env.MONGODB_URI || 'fallback-local-database-uri';
+
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  ssl: true, // Ensure SSL is enabled
-  sslValidate: true,
+  useUnifiedTopology: true
 }).then(() => console.log('MongoDB connected successfully.'))
   .catch(err => console.error('MongoDB connection error:', err));
 
 mongoose.connection.on('error', err => {
   console.error('MongoDB error:', err);
-  // Exit if the database connection is critical
-  if (err.message.code === 'ETIMEDOUT') {
+  if (err.message && err.message.code === 'ETIMEDOUT') {
     console.log('Attempting to re-connect to MongoDB...');
-    mongoose.connect(process.env.MONGODB_URI);
+    mongoose.connect(MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
   } else {
+    console.error('Critical MongoDB connection error:', err);
     process.exit(1);
   }
 });
+
 // // Mongo URI connection string 
 // const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/StackBuddyAI_DB';
 
