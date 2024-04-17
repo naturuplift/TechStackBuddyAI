@@ -17,7 +17,7 @@ try {
 const db = require('./config/connection');
 const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
-const { formatError, errorLoggingPlugin } = require('./utils/apolloBugHunter');
+// const { formatError, errorLoggingPlugin } = require('./utils/apolloBugHunter');
 
 const corsOptions = {
     origin: process.env.CORS_ORIGIN || 'http://localhost:3001',
@@ -41,8 +41,8 @@ async function startApolloServer() {
             ttl: 600000
         }),
         context: async ({ req }) => ({ ...authMiddleware(req) }),
-        formatError,
-        plugins: [errorLoggingPlugin],
+        // formatError,
+        // plugins: [errorLoggingPlugin],
         introspection: process.env.NODE_ENV !== 'production',
         playground: process.env.NODE_ENV !== 'production'
     });
@@ -79,7 +79,7 @@ async function startApolloServer() {
 
     db.once('open', () => {
         app.listen(PORT, '0.0.0.0', () => {
-            console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+            console.log(`🚀 Server ready at http://0.0.0.0:${PORT}${server.graphqlPath}`);
         });
     }).on('error', (error) => {
         console.error('Database connection error:', error);
