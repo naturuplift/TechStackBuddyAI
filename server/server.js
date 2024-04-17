@@ -125,7 +125,7 @@ app.post('/openai', async (req, res) => {
     // Connect the DB 
     db.once('open', () => {
         // Start the server once the DB is connected 
-        app.listen( PORT, () => {
+        app.listen( PORT,'0.0.0.0', () => {
         console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
         });
     }).on('error', (error) => {
