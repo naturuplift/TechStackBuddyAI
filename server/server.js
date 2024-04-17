@@ -42,6 +42,16 @@ app.use(express.static('public'));
 const server = new ApolloServer({
 typeDefs,
 resolvers,
+cache: new InMemoryLRUCache({
+    maxSize: 10000000, // Adjust size according to your application's needs
+    ttl: 600000 // Time-to-live in milliseconds
+}),
+    persistedQueries: {
+    cache: new InMemoryLRUCache({
+      maxSize: 10000000,
+      ttl: 600000
+}),
+},
 context : async ({ req }) => {
     // Use the authMiddleware to extract authen data 
     const authData = authMiddleware ({ req });
