@@ -36,15 +36,13 @@ async function startApolloServer() {
     const server = new ApolloServer({
         typeDefs,
         resolvers,
-        cache: new InMemoryLRUCache({
+        context: async ({ req }) => ({ ...authMiddleware(req) }),
+        introspection: process.env.NODE_ENV !== 'production',
+        playground: process.env.NODE_ENV !== 'production',
+        cache: new InMemoryLRUCache ? new InMemoryLRUCache({
             maxSize: 10000000,
             ttl: 600000
-        }),
-        context: async ({ req }) => ({ ...authMiddleware(req) }),
-        // formatError,
-        // plugins: [errorLoggingPlugin],
-        introspection: process.env.NODE_ENV !== 'production',
-        playground: process.env.NODE_ENV !== 'production'
+        }) : undefined
     });
 
     await server.start();
