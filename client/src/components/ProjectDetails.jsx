@@ -1,9 +1,10 @@
 import React from 'react';
 
 const ProjectDetails = ({ project }) => {
-    if(!project) {
-        return 
-        <p>No Project selected. </p>
+    if (!project) {
+        return (
+            <p>No Project selected.</p>
+        );
     }
 
 
