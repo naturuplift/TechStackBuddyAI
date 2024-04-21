@@ -75,8 +75,8 @@ cd StackBuddyAI
 
 Ensure you have the following installed:
 
-- Node.js and npm
-- MongoDB (for database management)
+- Node.js and npm.
+- MongoDB (for database management).
 
 ## Installation
 
